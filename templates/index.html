@@ -1,0 +1,171 @@
+{% extends "layout.html" %} {% block title %} Products {% endblock %} {% block
+main %}
+<div class="row">
+  {% if session["table_id"] %}
+  <div class="col-md-4 order-md-2 mb-4 text-center">
+    <h2 class="d-flex justify-content-between align-items-center mt-2">
+      <span class="text-muted">Selected products</span>
+      <span class="badge badge-secondary badge-pill">3</span>
+    </h2>
+    <ul class="list-group">
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-md-7">
+            <div class="text-start">
+              <h6 class="my-0">Product</h6>
+            </div>
+          </div>
+          <div class="col-md-1 text-center">
+            <span class="text">
+              <h6 class="my-0">#</h6>
+            </span>
+          </div>
+          <div class="col-md-2 text-center">
+            <span class="text">
+              <h6 class="my-0">Price</h6>
+            </span>
+          </div>
+          <div class="col-md-2 text-center">
+            <span class="text">
+              <h6 class="my-0">Total</h6>
+            </span>
+          </div>
+        </div>
+      </li>
+      {% if session['cart'] %} {% for product_id, content in cart.items() %}
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-md-7 text-start">
+            <div>
+              <h6 class="my-0">{{content["product"]["product_name"]}}</h6>
+            </div>
+          </div>
+          <div class="col-md-1 text-center">
+            <span class="text-muted">{{content["qty"]}}</span>
+          </div>
+          <div class="col-md-2 text-center">
+            <span class="text-muted">{{content["product"]["price"] | usd }}</span>
+          </div>
+          <div class="col-md-2 text-center">
+            <span class="text-muted">{{(content["product"]["price"] * content["qty"]) | usd }}</span>
+          </div>
+        </div>
+      </li>
+      {% endfor %} {% endif %}
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-md-10 text-start">
+            <h5 class="my-0">Total order value</h5>
+          </div>
+          <div class="col-md-2 text-center">
+            <strong>{{ total | usd}}</strong>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="d-flex justify-content-center">
+      <div class="btn-toolbar mt-3" role="toolbar">
+        <div class="btn-group mr-2" role="group" aria-label="First group">
+          <form action="/clearcart" method="post">
+            <button class="btn btn-danger text-center" type="submit">
+              Clear products
+            </button>
+          </form>
+        </div>
+        <div class="btn-group mr-2" role="group" aria-label="Second group">
+          <form action="/placeorder" method="post">
+            <button class="btn btn-primary text-center" type="submit">
+              Add to order
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!---Products -->
+  <div class="col-md-8 order-md-1 px-30">
+    <div class="row text-center mb-2 mt-2">
+      <div class="col-lg-7 mx-auto">
+        <h2>Products</h2>
+        <p>
+          Click to select a product. After all are products selected, place the
+          order.
+        </p>
+      </div>
+    </div>
+    <div class="list-group mx-3">
+      {% for product in products %}
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-md-8">
+            <div>
+              <h6 class="my-0">{{product["product_name"]}}</h6>
+              <small class="text-muted">{{product["product_name"]}}</small>
+            </div>
+          </div>
+          <div class="col-md-2 text-end">
+            <span class="text-muted">{{product["price"] | usd}}</span>
+          </div>
+          <div class="col-md-2 text-end">
+            <div class="btn-group">
+              <form action="/removefromcart" method="post">
+                <input name="id" type="hidden" value="{{ product.product_id }}" />
+                <button class="btn btn-primary" id="tocartbutton" type="submit">-</button>
+              </form>
+              <form action="/addtocart" method="post">
+                <input name="id" type="hidden" value="{{ product.product_id }}" />
+                <button class="btn btn-primary" id="tocartbutton" type="submit">+</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <div class="col-md-12 order-md-1 px-30">
+    <div class="row text-center mb-2 mt-2">
+      <div class="col-lg-7 mx-auto">
+        <h2>Products</h2>
+        <p>
+          Click to select a product. After all are products selected, place the
+          order.
+        </p>
+      </div>
+    </div>
+    <div class="list-group mx-3">
+      {% for product in products %}
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-md-8">
+            <div>
+              <h6 class="my-0">{{product["product_name"]}}</h6>
+              <small class="text-muted">{{product["product_name"]}}</small>
+            </div>
+          </div>
+          <div class="col-md-2 text-end">
+            <span class="text-muted">{{product["price"]}}</span>
+          </div>
+          <div class="col-md-2 text-end">
+            {% if session["table_id"] %}
+            <div class="btn-group">
+              <form action="/removefromcart" method="post">
+                <input name="id" type="hidden" value="{{ product.product_id }}" />
+                <button class="btn btn-primary" type="submit">-</button>
+              </form>
+              <form action="/addtocart" method="post">
+                <input name="id" type="hidden" value="{{ product.product_id }}" />
+                <button class="btn btn-primary" type="submit">+</button>
+              </form>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %} {% endblock %}

@@ -1,0 +1,39 @@
+{% extends "layout.html" %} {% block title %} Register Employee {% endblock %}
+{% if not session["employee_id"] %}
+<header>
+  <div class="alert alert-primary mb-0 text-center" role="alert">
+    "Please login in with the Admin account before"
+  </div>
+</header>
+{% endif %}
+{% block main %}
+<!-- {% if session["employee_id"] %} -->
+<div class="mt-3 text-center">
+  <form action="/register" method="post">
+    <div class="mb-3">
+      <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="first_name" name="first_name"
+        placeholder="First Name" type="text" />
+    </div>
+    <div class="mb-3">
+      <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="last_name" name="last_name"
+        placeholder="Last Name" type="text" />
+    </div>
+    <div class="mb-3">
+      <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password" />
+    </div>
+    <div class="mb-3">
+      <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation"
+        placeholder="Password confirmation" type="password" />
+    </div>
+    <button class="btn btn-primary" type="submit">Register</button>
+
+    <div class="mt-3">
+      <p class="mb-1">
+        Does the employee already have an account? Please login here:
+      </p>
+      <a class="btn btn-secondary" href="/login" role="button">Login</a>
+    </div>
+  </form>
+</div>
+<!-- {% endif %} -->
+{% endblock %}

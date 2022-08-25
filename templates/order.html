@@ -1,0 +1,94 @@
+{% extends "layout.html" %} {% block title %} Orders {% endblock %} {% block
+main %}
+{% if order["order_id"] %}
+<h2 class="my-10 text-center">Order Status: {{order["order_status"]}} </h2>
+<div class="row justify-content-md-center">
+  <div class="col-md-10 ">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-md-7">
+            <div class="text-start">
+              <h6 class="my-0">Product</h6>
+            </div>
+          </div>
+          <div class="col-md-1 text-center">
+            <span class="text">
+              <h6 class="my-0">#</h6>
+            </span>
+          </div>
+          <div class="col-md-2 text-center">
+            <span class="text">
+              <h6 class="my-0">Price</h6>
+            </span>
+          </div>
+          <div class="col-md-2 text-center">
+            <span class="text">
+              <h6 class="my-0">Total</h6>
+            </span>
+          </div>
+        </div>
+      </li>
+      {% for line in order["order_lines"] %}
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-md-7 text-start">
+            <div>
+              <h6 class="my-0">{{line["product"]["product_name"]}}</h6>
+              {% if line["line_remark"] is not none %}
+              <small class="text-muted">{{line["line_remark"]}}</small>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-1 text-center">
+            <span class="text-muted">{{line["quantity"]}}</span>
+          </div>
+          <div class="col-md-2 text-center">
+            <span class="text-muted">{{line["product"]["price"] | usd}}</span>
+          </div>
+          <div class="col-md-2 text-center">
+            <span class="text-muted">{{(line["product"]["price"] * line["quantity"]) | usd }}</span>
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-md-10 text-start">
+            <h5 class="my-0">Total order value</h5>
+          </div>
+          <div class="col-md-2 text-center">
+            <strong>{{ order["total_price"] | usd}}</strong>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <!-- End for order -->
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="d-flex justify-content-center">
+      <div class="btn-toolbar mt-3" role="toolbar">
+        <div class="btn-group mr-2" role="group" aria-label="Second group">
+          <form action="/payorder" method="post">
+            <input name="id" type="hidden" value="{{order['order_id']}}" />
+            <button class="btn btn-primary text-center" type="submit">
+              Pay order
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="row justify-content-md-center">
+  <h2 class="py-10 text-center">No order for this table</h2>
+  <form action="/" class="text-center">
+    <input name="id" type="hidden" value="{{order['order_id']}}" />
+    <button class="btn btn-primary text-center" type="submit">
+      Place an order
+    </button>
+  </form>
+</div>
+{% endif %}
+{% endblock %}

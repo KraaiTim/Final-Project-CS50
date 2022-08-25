@@ -1,0 +1,27 @@
+/* Size for brand */
+nav .navbar-brand {
+    font-size: xx-large;
+}
+
+nav .navbar-brand .red {
+    color: #ea433b;
+}
+
+
+button {
+    margin: 3px 3px 3px 3px;
+}
+
+#tocartbutton {
+    width: 40px;
+    height: 40px;
+    margin: 2 auto;
+    padding: 0;
+    display: inline-block;
+    line-height: 10px;
+    text-align: center;
+}
+
+#table_name {
+    margin-bottom: 5px;
+}

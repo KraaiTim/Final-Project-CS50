@@ -1,0 +1,38 @@
+{% extends "layout.html" %} {% block title %} TK Restaurant {% endblock %} {% block
+main %}
+<h2 class="py-20 my-10 text-center"></h2>
+<br>
+<div class="row pt-50 row-cols-1 row-cols-md-3 justify-content-md-center">
+    <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3">
+                <h4 class="my-0 fw-normal">Add to order</h4>
+            </div>
+            <div class="card-body">
+                <p>Add more products to order</p>
+                <form class="text-center" action="/">
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">
+                        Add products
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3">
+                <h4 class="my-0 fw-normal">Order overview</h4>
+            </div>
+            <div class="card-body">
+                <p>Show current products on order</p>
+                <form class="text-center" action="/order">
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">
+                        Order overview
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

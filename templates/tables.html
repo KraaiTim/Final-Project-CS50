@@ -1,0 +1,56 @@
+{% extends "layout.html" %} {% block title %} Products {% endblock %} {% block
+main %}
+<div class="row">
+  <div class="col-md-8 order-md-1 px-30">
+    <div class="row text-center mb-2 mt-2">
+      <div class="col-lg-7 mx-auto">
+        <!-- If there are no tables, -->
+        {% if not tables %}
+        <h3><i>First add a table</i></h3>
+        {% else %}
+        <h3>Select a table</h3>
+        {% endif %}
+      </div>
+    </div>
+    <div class="list-group mx-1">
+      {% for table in tables %}
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-md-10">
+            <div>
+              <h6 class="my-0">{{table["table_name"]}}</h6>
+              <small class="text-muted">{{table["table_id"]}}</small>
+            </div>
+          </div>
+          <div class="col-md-2 text-end">
+            <div class="btn-group">
+              <form action="/table/{{table['table_id']}}" method="get">
+                <input name="id" type="hidden" value="{{table['table_id']}}" />
+                <button class="btn btn-primary" type="submit">Select</button>
+              </form>
+              <form action="/removetable/" method="post">
+                <input name="id" type="hidden" value="{{table['table_id']}}" />
+                <button class="btn btn-danger" type="submit">Remove</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+
+    </div>
+  </div>
+  <div class="col-md-4 order-md-2 mb-4 text-center">
+    <div class="row text-center mb-2 mt-2">
+      <div class="col-lg-7 mx-auto">
+        <h3>Add table</h3>
+        <form action="/addtable" method="post">
+          <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="table_name" name="table_name"
+            placeholder="Table name" type="text" />
+          <button class="btn btn-primary" type="submit">Add table</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
